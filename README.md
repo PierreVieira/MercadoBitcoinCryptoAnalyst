@@ -14,4 +14,4 @@ Código que levanta estatísticas sobre lucro (em reais) sob criptomoedas da cor
 5) Pegue os arquivos csv baixados e os renomei para `extrato<ano>.csv` (.csv é apenas a extensão do arquivo). Exemplo: `extrato_2020.csv`
 6) Coloque os arquivos renomeados na pasta `data_files/extratos` (exclua os arquivos anteriores)
 7) Coloque no arquivo `balance.txt` localizado na pasata `data_files` o valor que aparece no seu saldo da plataforma do [Mercado Bitcoin](https://www.mercadobitcoin.com.br/)
-8) Execute o programa
+8) Execute o programa do arquivo `main.py`
