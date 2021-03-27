@@ -1,56 +1,12 @@
-import json
-import time
-from http import client
-from urllib.parse import urlencode
-
-from file_manager import FileManager
-from mac_generator import mac_generator
-
-REQUEST_HOST = 'www.mercadobitcoin.net'
-REQUEST_PATH = '/tapi/v3/'
-
-
-def post_request():
-    try:
-        conn = client.HTTPSConnection(REQUEST_HOST)
-        conn.request("POST", REQUEST_PATH, params, headers)
-
-        response = conn.getresponse()
-        response = response.read()
-
-        response_json = json.loads(response)
-        print('status: {}'.format(response_json['status_code']))
-        print(json.dumps(response_json, indent=4))
-    except ValueError:
-        print('API ERROR')
-    else:
-        conn.close()
-        return json
-
+from src.controller.bank_generator import BankGenerator
+from src.controller.file_manager import FileManager
 
 if __name__ == '__main__':
-    tapi_info = FileManager.get_tap_user_info()
-    tapi_id, tapi_secret = tapi_info['tapi_id'], tapi_info['tapi_secret']
-    tapi_method = 'get_account_info'
-
-    tapi_nonce = str(int(time.time()))
-
-    # Parâmetros
-    params = {
-        'tapi_method': tapi_method,
-        'tapi_nonce': tapi_nonce,
-    }
-    params = urlencode(params)
-
-    # Gerar MAC
-    tapi_mac = mac_generator(REQUEST_PATH, params, tapi_secret)
-
-    # Gerar cabeçalho da requisição
-    headers = {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'TAPI-ID': tapi_id,
-        'TAPI-MAC': tapi_mac
-    }
-
-    # Realizar requisição POST
-    post_request()
+    brokerage_balance = FileManager.get_brokerage_balance()
+    bank = BankGenerator.generate_bank(brokerage_balance)
+    print(f'Total depositado: R$ {bank.total_deposit:.2f}')
+    print(f'Total sacado: R$ {bank.total_withdraw:.2f}\n')
+    print(f'Lucro total se não sacar incluindo valor já sacado: R$ {bank.profit(incluir_valor_ja_sacado=True, vai_sacar=False):.2f}')
+    print(f'Lucro total em caso de saque incluindo valor já sacado: R$ {bank.profit(incluir_valor_ja_sacado=True, vai_sacar=True):.2f}')
+    print(f'Lucro total se não sacar não incluindo valor já sacado: R$ {bank.profit(incluir_valor_ja_sacado=False, vai_sacar=False):.2f}')
+    print(f'Lucro total se sacar não inculindo valor já sacado: R$ {bank.profit(incluir_valor_ja_sacado=False, vai_sacar=True):.2f}')
