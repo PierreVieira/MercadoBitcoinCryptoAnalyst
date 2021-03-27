@@ -1,6 +1,10 @@
 # Mercado Bitcoin Profit Analyst
 Código que levanta estatísticas sobre lucro (em reais) sob criptomoedas da corretora Mercado Bitcoin.
 
+<div align="center">
+  <img width="400" src="https://logodownload.org/wp-content/uploads/2021/01/mercado-bitcoin-logo.png">
+</div>
+
 ## Como usar
 
 1) Acesse a plataforma do [Mercado Bitcoin](https://www.mercadobitcoin.com.br/)
